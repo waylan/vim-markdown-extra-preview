@@ -90,10 +90,13 @@ def build_context(markdown):
         raise Exception('Your file is not saved.')
     name, ext = path.splitext(path.basename(buffer.name))
     body = '\n'.join(buffer)
+    style = vim.eval('g:VMEPstylesheet')
+    if not path.isfile(style):
+        style = path.join(base, 'stylesheets', style)
     return dict(
         name = name.replace('_', ' '),
         content = markdown.convert(body),
-        style = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
+        style = style,
     )
 
 def load_template():
