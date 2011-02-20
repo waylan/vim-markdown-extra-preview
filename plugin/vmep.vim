@@ -52,6 +52,10 @@ if !exists('g:VMEPstylesheet')
     let g:VMEPstylesheet = 'github.css'
 endif
 
+if !exists('g:VMEPextensions')
+    let g:VMEPextensions = ['extra']
+endif
+
 let s:script_dir = expand("<sfile>:p:h")
 
 function! PreviewMKDE()
@@ -60,16 +64,18 @@ python << PYTHON
 import vim, sys, imp
 from os import path, makedirs
 
-base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
-
 def load_markdown(base):
+    """ Import and create Markdown class instance. """
     f, p, d = imp.find_module('markdown', [base])
-    print p
     try:
-        return imp.load_module('markdown', f, p, d)
+        markdown = imp.load_module('markdown', f, p, d)
     finally:
         if f:
             f.close()
+    return markdown.Markdown(extensions = vim.eval('g:VMEPextensions'))
+
+base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
+
 markdown = load_markdown(base)
 
 stylesheet = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
@@ -119,7 +125,7 @@ if format == 'html':
     else:
         file = path.join(output_dir, name + '.html')
         f = open(file, 'w')
-       	f.write(template % (stylesheet, name, markdown.markdown(body, ['extra'])))  
+       	f.write(template % (stylesheet, name, markdown.convert(body)))  
 	f.close()
         vim.command("silent ! %s %s" % (reader, file))
         vim.command('redraw!')
