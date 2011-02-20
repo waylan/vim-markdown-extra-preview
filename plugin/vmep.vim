@@ -28,33 +28,33 @@ if !has('python')
     finish
 endif
 
-if !exists('g:VMPoutputformat')
-    let g:VMPoutputformat = 'html'
+if !exists('g:VMEPoutputformat')
+    let g:VMEPoutputformat = 'html'
 endif
 
-if !exists('g:VMPoutputdirectory')
-    let g:VMPoutputdirectory = '/tmp'
+if !exists('g:VMEPoutputdirectory')
+    let g:VMEPoutputdirectory = '/tmp'
 endif
 
-if !exists('g:VMPhtmlreader')
+if !exists('g:VMEPhtmlreader')
     if has('mac')
-        let g:VMPhtmlreader = 'open'
+        let g:VMEPhtmlreader = 'open'
     elseif has('win32') || has('win64')
-        let g:VMPhtmlreader = 'start'
+        let g:VMEPhtmlreader = 'start'
     elseif has('unix') && executable('xdg-open')
-        let g:VMPhtmlreader = 'xdg-open'
+        let g:VMEPhtmlreader = 'xdg-open'
     else
-        let g:VMPhtmlreader = ''
+        let g:VMEPhtmlreader = ''
     end
 endif
 
-if !exists('g:VMPstylesheet')
-    let g:VMPstylesheet = 'github.css'
+if !exists('g:VMEPstylesheet')
+    let g:VMEPstylesheet = 'github.css'
 endif
 
 let s:script_dir = expand("<sfile>:p:h")
 
-function! PreviewMKD()
+function! PreviewMKDE()
 python << PYTHON
 
 import vim, sys, imp
@@ -72,8 +72,8 @@ def load_markdown(base):
             f.close()
 markdown = load_markdown(base)
 
-stylesheet = path.join(base, 'stylesheets', vim.eval('g:VMPstylesheet'))
-output_dir = path.realpath(vim.eval('g:VMPoutputdirectory'))
+stylesheet = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
+output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
 if not path.isdir(output_dir):
     makedirs(output_dir)
 
@@ -111,11 +111,11 @@ template = """
 </html>
 """
 
-format = vim.eval('g:VMPoutputformat')
+format = vim.eval('g:VMEPoutputformat')
 if format == 'html':
-    reader = vim.eval('g:VMPhtmlreader')
+    reader = vim.eval('g:VMEPhtmlreader')
     if reader == '':
-        vim.message('No suitable HTML reader found! Please set g:VMPhtmlreader.')
+        vim.message('No suitable HTML reader found! Please set g:VMEPhtmlreader.')
     else:
         file = path.join(output_dir, name + '.html')
         f = open(file, 'w')
@@ -126,9 +126,9 @@ if format == 'html':
 elif format == 'pdf':
     vim.message('output format not implemented yet.')
 else:
-    vim.message('Unrecognized output format! Check g:VMPoutputformat.')
+    vim.message('Unrecognized output format! Check g:VMEPoutputformat.')
 
 PYTHON
 endfunction
 
-:command! Mm :call PreviewMKD()
+:command! Mm :call PreviewMKDE()
