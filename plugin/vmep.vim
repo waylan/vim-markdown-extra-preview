@@ -74,20 +74,28 @@ def load_markdown(base):
             f.close()
     return markdown.Markdown(extensions = vim.eval('g:VMEPextensions'))
 
+def build_context(markdown, base):
+    """ Build the context to be passed to template. """
+    buffer = vim.current.buffer
+    if buffer.name is None:
+        raise Exception('Your file is not saved.')
+    name, ext = path.splitext(path.basename(buffer.name))
+    body = '\n'.join(buffer)
+    return dict(
+        name = name.replace('_', ' '),
+        content = markdown.convert(body),
+        style = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
+    )
+
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
-
 markdown = load_markdown(base)
+context = build_context(markdown, base)
 
-stylesheet = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
 output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
 if not path.isdir(output_dir):
     makedirs(output_dir)
 
-buffer = vim.current.buffer
-if buffer.name is None:
-    raise Exception('Your file is not saved.')
-name, ext = path.splitext(path.basename(buffer.name))
-body = '\n'.join(buffer)
+
 
 template = """
 <!DOCTYPE html
@@ -97,9 +105,9 @@ template = """
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-  <link rel="stylesheet" href="%s"></link>
+  <link rel="stylesheet" href="%(style)s"></link>
 
-  <title>%s</title>
+  <title>%(name)s</title>
   </head>
   <body>
 
@@ -107,7 +115,7 @@ template = """
       <div id="centered">
         <div id="article">
           <div class="page"> 
-          %s
+          %(content)s
           </div>
         </div>
       </div>
@@ -125,7 +133,7 @@ if format == 'html':
     else:
         file = path.join(output_dir, name + '.html')
         f = open(file, 'w')
-       	f.write(template % (stylesheet, name, markdown.convert(body)))  
+       	f.write(template % context)  
 	f.close()
         vim.command("silent ! %s %s" % (reader, file))
         vim.command('redraw!')
