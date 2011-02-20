@@ -52,6 +52,10 @@ if !exists('g:VMEPstylesheet')
     let g:VMEPstylesheet = 'github.css'
 endif
 
+if !exists('g:VMEPtemplate')
+    let g:VMEPtemplate = 'github.html'
+endif
+
 if !exists('g:VMEPextensions')
     let g:VMEPextensions = ['extra']
 endif
@@ -64,7 +68,9 @@ python << PYTHON
 import vim, sys, imp
 from os import path, makedirs
 
-def load_markdown(base):
+base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
+
+def load_markdown():
     """ Import and create Markdown class instance. """
     f, p, d = imp.find_module('markdown', [base])
     try:
@@ -77,7 +83,7 @@ def load_markdown(base):
         output_format = vim.eval('g:VMEPoutputformat'),
     )
 
-def build_context(markdown, base):
+def build_context(markdown):
     """ Build the context to be passed to template. """
     buffer = vim.current.buffer
     if buffer.name is None:
@@ -90,7 +96,18 @@ def build_context(markdown, base):
         style = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
     )
 
-def display(template, context):
+def load_template():
+    """ Load template from file system. """
+    temp_path = vim.eval('g:VMEPtemplate')
+    if not path.isfile(temp_path):
+        temp_path = path.join(base, 'templates', temp_path)
+    f = open(temp_path, 'r')
+    template = f.read()
+    f.close()
+    x, file_ext = path.splitext(temp_path)
+    return template, file_ext
+
+def display(template, file_ext, context):
     """ Write temp file to disk and display in browser. """
     reader = vim.eval('g:VMEPhtmlreader')
     if reader == '':
@@ -99,45 +116,18 @@ def display(template, context):
         output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
         if not path.isdir(output_dir):
             makedirs(output_dir)
-        file = path.join(output_dir, name + '.html')
+        name = context['name'].replace(' ', '_') + file_ext
+        file = path.join(output_dir, name)
         f = open(file, 'w')
        	f.write(template % context)  
         f.close()
         vim.command("silent ! %s %s" % (reader, file))
         vim.command('redraw!')
 
-template = """
-<!DOCTYPE html
- PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
- "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-  <link rel="stylesheet" href="%(style)s"></link>
-
-  <title>%(name)s</title>
-  </head>
-  <body>
-
-    <div id="container">
-      <div id="centered">
-        <div id="article">
-          <div class="page"> 
-          %(content)s
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </body>
-</html>
-"""
-
-base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
-markdown = load_markdown(base)
-context = build_context(markdown, base)
-display(template, context)
+markdown = load_markdown()
+template, file_ext = load_template()
+context = build_context(markdown)
+display(template, file_ext, context)
 
 PYTHON
 endfunction
