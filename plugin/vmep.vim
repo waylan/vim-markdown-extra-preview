@@ -29,7 +29,7 @@ if !has('python')
 endif
 
 if !exists('g:VMEPoutputformat')
-    let g:VMEPoutputformat = 'html'
+    let g:VMEPoutputformat = 'xhtml'
 endif
 
 if !exists('g:VMEPoutputdirectory')
@@ -72,7 +72,10 @@ def load_markdown(base):
     finally:
         if f:
             f.close()
-    return markdown.Markdown(extensions = vim.eval('g:VMEPextensions'))
+    return markdown.Markdown(
+        extensions = vim.eval('g:VMEPextensions'),
+        output_format = vim.eval('g:VMEPoutputformat'),
+    )
 
 def build_context(markdown, base):
     """ Build the context to be passed to template. """
@@ -87,15 +90,21 @@ def build_context(markdown, base):
         style = path.join(base, 'stylesheets', vim.eval('g:VMEPstylesheet'))
     )
 
-base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
-markdown = load_markdown(base)
-context = build_context(markdown, base)
-
-output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
-if not path.isdir(output_dir):
-    makedirs(output_dir)
-
-
+def display(template, context):
+    """ Write temp file to disk and display in browser. """
+    reader = vim.eval('g:VMEPhtmlreader')
+    if reader == '':
+        vim.message('No suitable HTML reader found! Please set g:VMEPhtmlreader.')
+    else:
+        output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
+        if not path.isdir(output_dir):
+            makedirs(output_dir)
+        file = path.join(output_dir, name + '.html')
+        f = open(file, 'w')
+       	f.write(template % context)  
+        f.close()
+        vim.command("silent ! %s %s" % (reader, file))
+        vim.command('redraw!')
 
 template = """
 <!DOCTYPE html
@@ -125,22 +134,10 @@ template = """
 </html>
 """
 
-format = vim.eval('g:VMEPoutputformat')
-if format == 'html':
-    reader = vim.eval('g:VMEPhtmlreader')
-    if reader == '':
-        vim.message('No suitable HTML reader found! Please set g:VMEPhtmlreader.')
-    else:
-        file = path.join(output_dir, name + '.html')
-        f = open(file, 'w')
-       	f.write(template % context)  
-	f.close()
-        vim.command("silent ! %s %s" % (reader, file))
-        vim.command('redraw!')
-elif format == 'pdf':
-    vim.message('output format not implemented yet.')
-else:
-    vim.message('Unrecognized output format! Check g:VMEPoutputformat.')
+base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
+markdown = load_markdown(base)
+context = build_context(markdown, base)
+display(template, context)
 
 PYTHON
 endfunction
