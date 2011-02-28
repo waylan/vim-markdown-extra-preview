@@ -62,7 +62,7 @@ endif
 
 let s:script_dir = expand("<sfile>:p:h")
 
-function! PreviewMKDE()
+function! PreviewME()
 python << PYTHON
 
 import vim, sys, imp
@@ -143,4 +143,4 @@ display(template, file_ext, context)
 PYTHON
 endfunction
 
-:command! Mm :call PreviewMKDE()
+:command! Me :call PreviewME()
