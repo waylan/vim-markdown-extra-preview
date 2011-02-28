@@ -70,6 +70,14 @@ from os import path, makedirs
 
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
 
+def get_setting(setting):
+    """ Resolve a vim variable. First try 'b:setting', then 'g:setting'. """
+    b = 'b:' + setting
+    if int(vim.eval("exists('%s')" % b)):
+        return vim.eval(b)
+    else:
+        return vim.eval('g:'+setting)
+
 def load_markdown():
     """ Import and create Markdown class instance. """
     f, p, d = imp.find_module('markdown', [base])
@@ -79,8 +87,8 @@ def load_markdown():
         if f:
             f.close()
     return markdown.Markdown(
-        extensions = vim.eval('g:VMEPextensions'),
-        output_format = vim.eval('g:VMEPoutputformat'),
+        extensions = get_setting('VMEPextensions'),
+        output_format = get_setting('VMEPoutputformat'),
     )
 
 def build_context(markdown):
@@ -90,7 +98,7 @@ def build_context(markdown):
         raise Exception('Your file is not saved.')
     name, ext = path.splitext(path.basename(buffer.name))
     body = '\n'.join(buffer)
-    style = vim.eval('g:VMEPstylesheet')
+    style = get_setting('VMEPstylesheet')
     if not path.isfile(style):
         style = path.join(base, 'stylesheets', style)
     return dict(
@@ -101,7 +109,7 @@ def build_context(markdown):
 
 def load_template():
     """ Load template from file system. """
-    temp_path = vim.eval('g:VMEPtemplate')
+    temp_path = get_setting('VMEPtemplate')
     if not path.isfile(temp_path):
         temp_path = path.join(base, 'templates', temp_path)
     f = open(temp_path, 'r')
@@ -112,11 +120,11 @@ def load_template():
 
 def display(template, file_ext, context):
     """ Write temp file to disk and display in browser. """
-    reader = vim.eval('g:VMEPhtmlreader')
+    reader = get_setting('VMEPhtmlreader')
     if reader == '':
         vim.message('No suitable HTML reader found! Please set g:VMEPhtmlreader.')
     else:
-        output_dir = path.realpath(vim.eval('g:VMEPoutputdirectory'))
+        output_dir = path.realpath(get_setting('VMEPoutputdirectory'))
         if not path.isdir(output_dir):
             makedirs(output_dir)
         name = context['name'].replace(' ', '_') + file_ext
