@@ -101,6 +101,17 @@ file. Templates use Python's string formatting to insert the following data:
     
     style:   The full path to the style sheet set in |g:VMEPstylesheet|. 
 
+If Python-Markdown's Meta-Data extension is used, any meta-data defined in the
+buffer will also be added to the context passed to the template. The meta-data
+will overwrite any of the existing data. This could be useful for setting a 
+more verbose 'name' for the document or to set a document specific style. But 
+it could also overwrite data if not used with care.
+
+To enable the meta-data extension, it will need to included in the 
+|g:VMEPextensions| setting (or its buffer specific counterpart) like this:
+
+    :let g:VMEPextensions = ['extra', 'meta']
+
 A simple template may look something like this:
 
  1 <html>

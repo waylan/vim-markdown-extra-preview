@@ -101,11 +101,15 @@ def build_context(markdown):
     style = get_setting('VMEPstylesheet')
     if not path.isfile(style):
         style = path.join(base, 'stylesheets', style)
-    return dict(
+    context = dict(
         name = name.replace('_', ' '),
         content = markdown.convert(body),
         style = style,
     )
+    if hasattr(markdown, 'Meta'):
+        for k, v in markdown.Meta:
+            context[k] = ' '.join(v)
+    return context
 
 def load_template():
     """ Load template from file system. """
