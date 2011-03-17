@@ -10,7 +10,7 @@ installed on the system. The plugin checks this when called and will fail
 with an error message if Python is not available.
 
 Commands:
-    :Mm
+    :Me
         Preview the current buffer
 
 Global Settings:                                        *vmep-global-settings*
