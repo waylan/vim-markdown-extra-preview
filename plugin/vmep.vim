@@ -49,7 +49,7 @@ if !exists('g:VMEPhtmlreader')
 endif
 
 if !exists('g:VMEPstylesheet')
-    let g:VMEPstylesheet = 'github.css'
+    let g:VMEPstylesheet = 'markdown.css'
 endif
 
 if !exists('g:VMEPtemplate')
@@ -65,7 +65,7 @@ let s:script_dir = expand("<sfile>:p:h")
 function! PreviewME()
 python << PYTHON
 
-import vim, sys, imp
+import vim, sys, imp, codecs
 from os import path, makedirs
 
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
@@ -103,7 +103,8 @@ def build_context(markdown):
         style = path.join(base, 'stylesheets', style)
     context = dict(
         name = name.replace('_', ' '),
-        content = markdown.convert(body),
+        # content = markdown.convert(body),
+        content = markdown.convert(unicode(body, 'utf-8')),
         style = style,
     )
     if hasattr(markdown, 'Meta'):
@@ -133,7 +134,8 @@ def display(template, file_ext, context):
             makedirs(output_dir)
         name = context['name'].replace(' ', '_') + file_ext
         file = path.join(output_dir, name)
-        f = open(file, 'w')
+        #f = open(file, 'w')
+        f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
        	f.write(template % context)  
         f.close()
         vim.command("silent ! %s %s" % (reader, file))
