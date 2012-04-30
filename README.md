@@ -107,19 +107,19 @@ is readable and contains the wrapper around which Markdown's output is inserted.
 The file extension of the template is used as the file extension of the output
 file. Templates use Python's string formatting to insert the following data:
 
-name:    
+* name:    
 
-  : The name of the buffer with the file-extension removed and underscores 
+    The name of the buffer with the file-extension removed and underscores 
 replaced by spaces (i.e., `foo_bar.txt` becomes `foo bar`). This is generally
 expected to be used in the documents title.
 
-content: 
+* content: 
  
-  : The full body of Markdown's output.
+    The full body of Markdown's output.
 
-style:
+* style:
 
-  : The full path to the style sheet set in `g:VMEPstylesheet`. 
+    The full path to the style sheet set in `g:VMEPstylesheet`. 
 
 If Python-Markdown's Meta-Data extension is used, any meta-data defined in the
 buffer will also be added to the context passed to the template. The meta-data
