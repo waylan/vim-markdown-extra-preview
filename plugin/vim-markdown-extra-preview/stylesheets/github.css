@@ -1,0 +1,668 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+}
+input, button, textarea {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    font-family: inherit;
+}
+button {
+    box-sizing: content-box;
+}
+html, body {
+    height: 100%;
+    min-width: 960px;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+html {
+    overflow-y: scroll;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+strong, b {
+    font-weight: bold;
+}
+em, i {
+    font-style: italic;
+}
+
+body {
+    background-color: #fff;
+    font: 13px Helvetica, arial, freesans, clean, sans-serif;
+    line-height: 1.4;
+    color: #333;
+}
+
+select, option {
+    padding: 0 .25em;
+}
+optgroup {
+    margin-top: .5em;
+}
+input.text {
+    padding: 1px 0;
+}
+pre, code {
+    font: 12px 'Bitstream Vera Sans Mono', 'Courier', monospace;
+}
+p {
+    margin: 1em 0;
+}
+small {
+    font-size: 11px;
+    font-weight: 200;
+}
+img {
+    border: 0;
+}
+abbr {
+    border-bottom: none;
+}
+
+a {
+    color: #4183c4;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a.action {
+    color: #d00;
+    text-decoration: underline;
+}
+a.danger {
+    color: #c00;
+}
+a.mute {
+    color: #000;
+}
+a:active {
+    outline: none;
+}
+.page {
+    font-size: 14px;
+    line-height: 1.6;
+    width: 872px;
+    margin: 0 auto;
+}
+.page>*:first-child {
+    margin-top: 0!important;
+}
+.page>*:last-child {
+    margin-bottom: 0!important;
+}
+.page a.absent {
+    color: #c00;
+}
+.page a.anchor {
+    display: block;
+    padding-left: 30px;
+    margin-left: -30px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+.page h1, .page h2, .page h3, .page h4, .page h5, .page h6 {
+    margin: 20px 0 10px;
+    padding: 0;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    cursor: text;
+    position: relative;
+}
+.page h1:hover a.anchor, .page h2:hover a.anchor, .page h3:hover a.anchor, .page h4:hover a.anchor, .page h5:hover a.anchor, .page h6:hover a.anchor {
+    background: url('../../images/modules/styleguide/para.png') no-repeat 10px center;
+    text-decoration: none;
+}
+.page h1 tt, .page h1 code, .page h2 tt, .page h2 code, .page h3 tt, .page h3 code, .page h4 tt, .page h4 code, .page h5 tt, .page h5 code, .page h6 tt, .page h6 code {
+    font-size: inherit;
+}
+.page h1 {
+    font-size: 28px;
+    color: #000;
+}
+.page h2 {
+    font-size: 24px;
+    border-bottom: 1px solid #ccc;
+    color: #000;
+}
+.page h3 {
+    font-size: 18px;
+}
+.page h4 {
+    font-size: 16px;
+}
+.page h5 {
+    font-size: 14px;
+}
+.page h6 {
+    color: #777;
+    font-size: 14px;
+}
+.page p, .page blockquote, .page ul, .page ol, .page dl, .page li, .page table, .page pre {
+    margin: 15px 0;
+}
+.page hr {
+    background: transparent url('../../images/modules/pulls/dirty-shade.png') repeat-x 0 0;
+    border: 0 none;
+    color: #ccc;
+    height: 4px;
+    padding: 0;
+}
+.page>h2:first-child, .page>h1:first-child, .page>h1:first-child+h2, .page>h3:first-child, .page>h4:first-child, .page>h5:first-child, .page>h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+.page a:first-child h1, .page a:first-child h2, .page a:first-child h3, .page a:first-child h4, .page a:first-child h5, .page a:first-child h6 {
+    margin-top: 0;
+    padding-top: 0;
+}
+.page h1+p, .page h2+p, .page h3+p, .page h4+p, .page h5+p, .page h6+p {
+    margin-top: 0;
+}
+.page li p.first {
+    display: inline-block;
+}
+.page ul, .page ol {
+    padding-left: 30px;
+}
+.page ul li>:first-child, .page ol li>:first-child {
+    margin-top: 0;
+}
+.page ul li>:last-child, .page ol li>:last-child {
+    margin-bottom: 0;
+}
+.page dl {
+    padding: 0;
+}
+.page dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px;
+}
+.page dl dt:first-child {
+    padding: 0;
+}
+.page dl dt>:first-child {
+    margin-top: 0;
+}
+.page dl dt>:last-child {
+    margin-bottom: 0;
+}
+.page dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px;
+}
+.page dl dd>:first-child {
+    margin-top: 0;
+}
+.page dl dd>:last-child {
+    margin-bottom: 0;
+}
+.page blockquote {
+    border-left: 4px solid #DDD;
+    padding: 0 15px;
+    color: #777;
+}
+.page blockquote>:first-child {
+    margin-top: 0;
+}
+.page blockquote>:last-child {
+    margin-bottom: 0;
+}
+.page table {
+    padding: 0;
+}
+.page table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+}
+.page table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+.page table tr th {
+    font-weight: bold;
+}
+.page table tr th, .page table tr td {
+    border: 1px solid #ccc;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+}
+.page table tr th>:first-child, .page table tr td>:first-child {
+    margin-top: 0;
+}
+.page table tr th>:last-child, .page table tr td>:last-child {
+    margin-bottom: 0;
+}
+.page img {
+    max-width: 100%;
+}
+.page span.frame {
+    display: block;
+    overflow: hidden;
+}
+.page span.frame>span {
+    border: 1px solid #ddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto;
+}
+.page span.frame span img {
+    display: block;
+    float: left;
+}
+.page span.frame span span {
+    clear: both;
+    color: #333;
+    display: block;
+    padding: 5px 0 0;
+}
+.page span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+.page span.align-center>span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center;
+}
+.page span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+.page span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+.page span.align-right>span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right;
+}
+.page span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+.page span.float-left {
+    display: block;
+    margin-right: 13px;
+    overflow: hidden;
+    float: left;
+}
+.page span.float-left span {
+    margin: 13px 0 0;
+}
+.page span.float-right {
+    display: block;
+    margin-left: 13px;
+    overflow: hidden;
+    float: right;
+}
+.page span.float-right>span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right;
+}
+.page code, .page tt {
+    margin: 0 2px;
+    padding: 0 5px;
+    white-space: nowrap;
+    border: 1px solid #eaeaea;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+}
+.page pre>code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent;
+}
+.page .highlight pre, .page pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+.page pre code, .page pre tt {
+    background-color: transparent;
+    border: none;
+}
+#article {
+    padding: 3px;
+    background: #EEE;
+    border-radius: 3px;
+}
+#article span.name {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: bold;
+    padding: 10px 10px;
+    color: #555;
+    text-shadow: 0 1px 0 #fff;
+    display: block;
+    border: 1px solid #CACACA;
+    border-bottom: 0 none;
+    background: #fafafa;
+    background: -moz-linear-gradient(#fafafa, #eaeaea);
+    background: -webkit-linear-gradient(#fafafa, #eaeaea);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eaeaea')";
+}
+#article .page, #article .plain {
+    background-color: #fff;
+    border: 1px solid #CACACA;
+    padding: 30px;
+}
+#article .plain pre {
+    font-size: 17px;
+    white-space: pre-wrap;
+}
+#files #article {
+    background-color: #fff;
+    border: 0 none;
+    padding: 20px;
+    border-radius: 0;
+}
+#files #article .page {
+    border: 0 none;
+    padding: 0;
+    border-radius: 0;
+}
+#missing-readme {
+    font: 13.34px helvetica, arial, freesans, clean, sans-serif;
+    text-align: center;
+    background-color: #ffc;
+    padding: .7em;
+    border: 1px solid #ccc;
+}
+#article.rst .borderless, #article.rst table.borderless td, #article.rst table.borderless th {
+    border: 0;
+}
+#article.rst table.borderless td, #article.rst table.borderless th {
+    padding: 0 .5em 0 0!important;
+}
+#article.rst .first {
+    margin-top: 0!important;
+}
+#article.rst .last, #article.rst .with-subtitle {
+    margin-bottom: 0!important;
+}
+#article.rst .hidden {
+    display: none;
+}
+#article.rst a.toc-backref {
+    text-decoration: none;
+    color: black;
+}
+#article.rst blockquote.epigraph {
+    margin: 2em 5em;
+}
+#article.rst dl.docutils dd {
+    margin-bottom: .5em;
+}
+#article.rst div.abstract {
+    margin: 2em 5em;
+}
+#article.rst div.abstract p.topic-title {
+    font-weight: bold;
+    text-align: center;
+}
+#article.rst div.admonition, #article.rst div.attention, #article.rst div.caution, #article.rst div.danger, #article.rst div.error, #article.rst div.hint, #article.rst div.important, #article.rst div.note, #article.rst div.tip, #article.rst div.warning {
+    margin: 2em;
+    border: medium outset;
+    padding: 1em;
+}
+#article.rst div.admonition p.admonition-title, #article.rst div.hint p.admonition-title, #article.rst div.important p.admonition-title, #article.rst div.note p.admonition-title, #article.rst div.tip p.admonition-title {
+    font-weight: bold;
+    font-family: sans-serif;
+}
+#article.rst div.attention p.admonition-title, #article.rst div.caution p.admonition-title, #article.rst div.danger p.admonition-title, #article.rst div.error p.admonition-title, #article.rst div.warning p.admonition-title {
+    color: red;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+#article.rst div.dedication {
+    margin: 2em 5em;
+    text-align: center;
+    font-style: italic;
+}
+#article.rst div.dedication p.topic-title {
+    font-weight: bold;
+    font-style: normal;
+}
+#article.rst div.figure {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+#article.rst div.footer, #article.rst div.header {
+    clear: both;
+    font-size: smaller;
+}
+#article.rst div.line-block {
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+#article.rst div.line-block div.line-block {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 1.5em;
+}
+#article.rst div.sidebar {
+    margin: 0 0 .5em 1em;
+    border: medium outset;
+    padding: 1em;
+    background-color: #ffe;
+    width: 40%;
+    float: right;
+    clear: right;
+}
+#article.rst div.sidebar p.rubric {
+    font-family: sans-serif;
+    font-size: medium;
+}
+#article.rst div.system-messages {
+    margin: 5em;
+}
+#article.rst div.system-messages h1 {
+    color: red;
+}
+#article.rst div.system-message {
+    border: medium outset;
+    padding: 1em;
+}
+#article.rst div.system-message p.system-message-title {
+    color: red;
+    font-weight: bold;
+}
+#article.rst div.topic {
+    margin: 2em;
+}
+#article.rst h1.section-subtitle, #article.rst h2.section-subtitle, #article.rst h3.section-subtitle, #article.rst h4.section-subtitle, #article.rst h5.section-subtitle, #article.rst h6.section-subtitle {
+    margin-top: .4em;
+}
+#article.rst h1.title {
+    text-align: center;
+}
+#article.rst h2.subtitle {
+    text-align: center;
+}
+#article.rst hr.docutils {
+    width: 75%;
+}
+#article.rst img.align-left, #article.rst .figure.align-left, #article.rst object.align-left {
+    clear: left;
+    float: left;
+    margin-right: 1em;
+}
+#article.rst img.align-right, #article.rst .figure.align-right, #article.rst object.align-right {
+    clear: right;
+    float: right;
+    margin-left: 1em;
+}
+#article.rst img.align-center, #article.rst .figure.align-center, #article.rst object.align-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#article.rst .align-left {
+    text-align: left;
+}
+#article.rst .align-center {
+    clear: both;
+    text-align: center;
+}
+#article.rst .align-right {
+    text-align: right;
+}
+#article.rst div.align-right {
+    text-align: left;
+}
+#article.rst ol.simple, #article.rst ul.simple {
+    margin-bottom: 1em;
+}
+#article.rst ol.arabic {
+    list-style: decimal;
+}
+#article.rst ol.loweralpha {
+    list-style: lower-alpha;
+}
+#article.rst ol.upperalpha {
+    list-style: upper-alpha;
+}
+#article.rst ol.lowerroman {
+    list-style: lower-roman;
+}
+#article.rst ol.upperroman {
+    list-style: upper-roman;
+}
+#article.rst p.attribution {
+    text-align: right;
+    margin-left: 50%;
+}
+#article.rst p.caption {
+    font-style: italic;
+}
+#article.rst p.credits {
+    font-style: italic;
+    font-size: smaller;
+}
+#article.rst p.label {
+    white-space: nowrap;
+}
+#article.rst p.rubric {
+    font-weight: bold;
+    font-size: larger;
+    color: maroon;
+    text-align: center;
+}
+#article.rst p.sidebar-title {
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: larger;
+}
+#article.rst p.sidebar-subtitle {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#article.rst p.topic-title {
+    font-weight: bold;
+}
+#article.rst pre.address {
+    margin-bottom: 0;
+    margin-top: 0;
+    font: inherit;
+}
+#article.rst pre.literal-block, #article.rst pre.doctest-block {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+#article.rst span.classifier {
+    font-family: sans-serif;
+    font-style: oblique;
+}
+#article.rst span.classifier-delimiter {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+#article.rst span.interpreted {
+    font-family: sans-serif;
+}
+#article.rst span.option {
+    white-space: nowrap;
+}
+#article.rst span.pre {
+    white-space: pre;
+}
+#article.rst span.problematic {
+    color: red;
+}
+#article.rst span.section-subtitle {
+    font-size: 80%;
+}
+#article.rst table.citation {
+    border-left: solid 1px gray;
+    margin-left: 1px;
+}
+#article.rst table.docinfo {
+    margin: 2em 4em;
+}
+#article.rst table.docutils {
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+#article.rst table.footnote {
+    border-left: solid 1px black;
+    margin-left: 1px;
+}
+#article.rst table.docutils td, #article.rst table.docutils th, #article.rst table.docinfo td, #article.rst table.docinfo th {
+    padding-left: .5em;
+    padding-right: .5em;
+    vertical-align: top;
+}
+#article.rst table.docutils th.field-name, #article.rst table.docinfo th.docinfo-name {
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+    padding-left: 0;
+}
+#article.rst h1 tt.docutils, #article.rst h2 tt.docutils, #article.rst h3 tt.docutils, #article.rst h4 tt.docutils, #article.rst h5 tt.docutils, #article.rst h6 tt.docutils {
+    font-size: 100%;
+}
+#article.rst ul.auto-toc {
+    list-style-type: none;
+}
