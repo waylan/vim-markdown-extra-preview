@@ -37,15 +37,7 @@ if !exists('g:VMEPoutputdirectory')
 endif
 
 if !exists('g:VMEPhtmlreader')
-    if has('mac')
-        let g:VMEPhtmlreader = 'open'
-    elseif has('win32') || has('win64')
-        let g:VMEPhtmlreader = 'start'
-    elseif has('unix') && executable('xdg-open')
-        let g:VMEPhtmlreader = 'xdg-open'
-    else
-        let g:VMEPhtmlreader = ''
-    end
+    let g:VMEPhtmlreader = ''
 endif
 
 if !exists('g:VMEPstylesheet')
@@ -65,7 +57,7 @@ let s:script_dir = expand("<sfile>:p:h")
 function! PreviewME()
 python << PYTHON
 
-import vim, sys, imp, codecs
+import vim, sys, imp, codecs, webbrowser
 from os import path, makedirs
 
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
@@ -126,20 +118,19 @@ def load_template():
 def display(template, file_ext, context):
     """ Write temp file to disk and display in browser. """
     reader = get_setting('VMEPhtmlreader')
+    output_dir = path.realpath(get_setting('VMEPoutputdirectory'))
+    if not path.isdir(output_dir):
+        makedirs(output_dir)
+    name = context['name'].replace(' ', '_') + file_ext
+    file = path.join(output_dir, name)
+    f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
+    f.write(template % context)  
+    f.close()
     if reader == '':
-        vim.message('No suitable HTML reader found! Please set g:VMEPhtmlreader.')
+        # if VMEPhtmlreader is not set, use the default browser
+        webbrowser.open(file)
     else:
-        output_dir = path.realpath(get_setting('VMEPoutputdirectory'))
-        if not path.isdir(output_dir):
-            makedirs(output_dir)
-        name = context['name'].replace(' ', '_') + file_ext
-        file = path.join(output_dir, name)
-        #f = open(file, 'w')
-        f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
-       	f.write(template % context)  
-        f.close()
-        vim.command("silent ! %s %s" % (reader, file))
-        vim.command('redraw!')
+        webbrowser.get("{0} %s".format(reader)).open(file)
 
 markdown = load_markdown()
 template, file_ext = load_template()
