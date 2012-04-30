@@ -56,8 +56,7 @@ class InlineProcessor(Treeprocessor):
         self.__placeholder_suffix = util.ETX
         self.__placeholder_length = 4 + len(self.__placeholder_prefix) \
                                       + len(self.__placeholder_suffix)
-        self.__placeholder_re = \
-                            re.compile(util.INLINE_PLACEHOLDER % r'([0-9]{4})')
+        self.__placeholder_re = util.INLINE_PLACEHOLDER_RE
         self.markdown = md
 
     def __makePlaceholder(self, type):
@@ -290,18 +289,30 @@ class InlineProcessor(Treeprocessor):
                                                     text), child)
                     stack += lst
                     insertQueue.append((child, lst))
-
+                if child.tail:
+                    tail = self.__handleInline(child.tail)
+                    dumby = util.etree.Element('d')
+                    tailResult = self.__processPlaceholders(tail, dumby)
+                    if dumby.text:
+                        child.tail = dumby.text
+                    else:
+                        child.tail = None
+                    pos = currElement.getchildren().index(child) + 1
+                    tailResult.reverse()
+                    for newChild in tailResult:
+                        currElement.insert(pos, newChild)
                 if child.getchildren():
                     stack.append(child)
 
-            if self.markdown.enable_attributes:
-                for element, lst in insertQueue:
+            for element, lst in insertQueue:
+                if self.markdown.enable_attributes:
                     if element.text:
                         element.text = \
                             inlinepatterns.handleAttributes(element.text, 
                                                                     element)
-                    i = 0
-                    for newChild in lst:
+                i = 0
+                for newChild in lst:
+                    if self.markdown.enable_attributes:
                         # Processing attributes
                         if newChild.tail:
                             newChild.tail = \
@@ -311,8 +322,8 @@ class InlineProcessor(Treeprocessor):
                             newChild.text = \
                                 inlinepatterns.handleAttributes(newChild.text,
                                                                     newChild)
-                        element.insert(i, newChild)
-                        i += 1
+                    element.insert(i, newChild)
+                    i += 1
         return tree
 
 
