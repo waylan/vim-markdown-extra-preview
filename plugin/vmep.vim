@@ -49,7 +49,7 @@ if !exists('g:VMEPhtmlreader')
 endif
 
 if !exists('g:VMEPstylesheet')
-    let g:VMEPstylesheet = 'markdown.css'
+    let g:VMEPstylesheet = 'github.css'
 endif
 
 if !exists('g:VMEPtemplate')
