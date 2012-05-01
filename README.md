@@ -12,7 +12,21 @@ with an error message if Python is not available.
 
 ## Usage
 
-Run the command `:Me` to preview the current buffer
+There are two commands available:
+
+* Run the command `:Me` to preview the current buffer. This is the normal
+  mode, converts the markdown buffer to a html file and open it in a new browser 
+  window or tab with the result.
+
+* Run the command `:Mer` to refresh the current buffer. The intention of this
+  mode is making it work together with a browser plugin that reload the page
+  when it changes. Then, this mode don't open a new browser tab or window, only
+  save the html file to the disk. With a plugin like the 
+  [Firefox's  Auto Reload][far] the browser tab it's automatically reloaded in
+  order to view the changes.
+
+  [far]: https://addons.mozilla.org/en-US/firefox/addon/auto-reload/
+  
 
 ## Options
 
