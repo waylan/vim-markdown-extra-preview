@@ -58,7 +58,7 @@ setting for a specific buffer.
     *g:VMEPoutputdirectory*
     The directory in which the output will be written before being displayed
     in the browser. This must be a full path which is writable. Defaults to 
-    '/tmp'.
+    ''.
 
     *g:VMEPhtmlreader*
     The browser in which the output will be displayed. Defaults to the system's

@@ -76,7 +76,7 @@ directory. If a full path is given, then that path is used as-is.
 
     The directory in which the output will be written before being displayed
 in the browser. This must be a full path which is writable. Defaults to 
-`/tmp`.
+``.
 
 * `g:VMEPhtmlreader`
 

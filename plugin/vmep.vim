@@ -34,7 +34,7 @@ if !exists('g:VMEPoutputformat')
 endif
 
 if !exists('g:VMEPoutputdirectory')
-    let g:VMEPoutputdirectory = '/tmp'
+    let g:VMEPoutputdirectory = ''
 endif
 
 if !exists('g:VMEPhtmlreader')
@@ -59,7 +59,7 @@ function! PreviewME(refresh)
 python << PYTHON
 
 import vim, sys, imp, codecs, webbrowser
-from os import path
+from os import path, makedirs, linesep
 from tempfile import gettempdir
 
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
@@ -91,7 +91,7 @@ def build_context(markdown):
     if buffer.name is None:
         raise Exception('Your file is not saved.')
     name, ext = path.splitext(path.basename(buffer.name))
-    body = '\n'.join(buffer)
+    body = os.linesep.join(buffer)
     style = get_setting('VMEPstylesheet')
     if not path.isfile(style):
         style = path.join(base, 'stylesheets', style)
@@ -120,9 +120,13 @@ def load_template():
 def display(template, file_ext, context):
     """ Write temp file to disk and display in browser. """
     reader = get_setting('VMEPhtmlreader')
-    output_dir = path.realpath(get_setting('VMEPoutputdirectory'))
-    if not path.isdir(output_dir):
+    output_dir = get_setting('VMEPoutputdirectory')
+    if not output_dir: 
         output_dir = gettempdir()
+    else: 
+        output_dir = path.realpath(output_dir)
+        if not path.isdir(output_dir):
+            makedirs(output_dir)
     name = context['name'].replace(' ', '_') + file_ext
     file = path.join(output_dir, name)
     f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
