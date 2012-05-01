@@ -59,7 +59,8 @@ function! PreviewME(refresh)
 python << PYTHON
 
 import vim, sys, imp, codecs, webbrowser
-from os import path, makedirs
+from os import path
+from tempfile import gettempdir
 
 base = path.join(vim.eval('s:script_dir'), 'vim-markdown-extra-preview')
 
@@ -121,7 +122,7 @@ def display(template, file_ext, context):
     reader = get_setting('VMEPhtmlreader')
     output_dir = path.realpath(get_setting('VMEPoutputdirectory'))
     if not path.isdir(output_dir):
-        makedirs(output_dir)
+        output_dir = gettempdir()
     name = context['name'].replace(' ', '_') + file_ext
     file = path.join(output_dir, name)
     f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
