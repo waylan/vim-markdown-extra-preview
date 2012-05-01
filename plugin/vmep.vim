@@ -8,6 +8,7 @@
 " etc.).
 "
 " Copyright (C) 2011 Waylan Limberg <waylan@gmail.com>
+" Copyright (C) 2012 joe di castro  <joe@joedicastro.com>
 "
 " vim-markdown-extra-preview is free software: you can redistribute it and/or 
 " modify it under the terms of the GNU General Public License as published by
@@ -54,7 +55,7 @@ endif
 
 let s:script_dir = expand("<sfile>:p:h")
 
-function! PreviewME()
+function! PreviewME(refresh)
 python << PYTHON
 
 import vim, sys, imp, codecs, webbrowser
@@ -126,11 +127,13 @@ def display(template, file_ext, context):
     f = codecs.open(file, 'w', encoding='utf-8', errors='xmlcharrefreplace')
     f.write(template % context)  
     f.close()
-    if reader == '':
-        # if VMEPhtmlreader is not set, use the default browser
-        webbrowser.open(file)
-    else:
-        webbrowser.get("{0} %s".format(reader)).open(file)
+    refresh = bool(vim.eval('a:refresh'))
+    if not refresh:
+        if reader == '':
+            # if VMEPhtmlreader is not set, use the default browser
+            webbrowser.open(file)
+        else:
+            webbrowser.get("{0} %s".format(reader)).open(file)
 
 markdown = load_markdown()
 template, file_ext = load_template()
@@ -140,4 +143,5 @@ display(template, file_ext, context)
 PYTHON
 endfunction
 
-:command! Me :call PreviewME()
+:command! Me :call PreviewME('')
+:command! Mer :call PreviewME('True')
