@@ -75,8 +75,9 @@ directory. If a full path is given, then that path is used as-is.
 * `g:VMEPoutputdirectory`
 
     The directory in which the output will be written before being displayed
-in the browser. This must be a full path which is writable. Defaults to 
-`/tmp`.
+in the browser. This must be a full path which is writable. When assigned an 
+empty value(``), it is assumed that the system default temporary directory 
+should be used. Empty by default.
 
 * `g:VMEPhtmlreader`
 
