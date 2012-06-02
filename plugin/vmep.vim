@@ -91,7 +91,7 @@ def build_context(markdown):
     if buffer.name is None:
         raise Exception('Your file is not saved.')
     name, ext = path.splitext(path.basename(buffer.name))
-    body = os.linesep.join(buffer)
+    body = linesep.join(buffer)
     style = get_setting('VMEPstylesheet')
     if not path.isfile(style):
         style = path.join(base, 'stylesheets', style)
