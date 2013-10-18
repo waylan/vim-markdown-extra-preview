@@ -161,7 +161,7 @@ a:active {
     margin: 15px 0;
 }
 .page hr {
-    background: transparent url('../../images/modules/pulls/dirty-shade.png') repeat-x 0 0;
+    background: transparent url('https://github.global.ssl.fastly.net/assets/primer/markdown/dirty-shade-aa53f50177de6e9a016a801161874096327f9f80.png') repeat-x 0 0;
     border: 0 none;
     color: #ccc;
     height: 4px;
